@@ -2,4 +2,4 @@
 ### Minha Cabeça Girando
 
 
-![](head-gif.gif)
+
