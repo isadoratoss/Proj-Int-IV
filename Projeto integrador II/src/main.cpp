@@ -22,7 +22,7 @@ String Sumidificar = "Umidificar";
 
 String Svelocidade = "Velocidade";
 
-String Soscilacao = "Oscilação";
+String Soscilacao = "Oscilar";
 
 String Sresfriar = "Resfriar";
 
@@ -141,12 +141,14 @@ void loop(){
             client.println("<link rel=\"icon\" href=\"data:,\">");
           
             client.println("<style>html { font-family: Helvetica; display: inline-block; margin: 0px auto; text-align: center;}");
-            client.println(".button { background-color: #195B6A; border: none; color: white; padding: 16px 40px;");
+            client.println(".button { background-color:  #ffcbdb; border: none; color: black; padding: 16px 40px;");
             client.println("text-decoration: none; font-size: 30px; margin: 2px; cursor: pointer;}");
-            client.println(".button2 {background-color: #77878A;}</style></head>");
+            client.println(".button2 {background-color:  #ffcbdb;}</style></head>");
+           
+
 
             client.println("<body><h1>ESP8266 Web Server</h1>");
-            client.println("<body><h2>Prof. Rafael</h2>");
+            client.println("<body><h2>Projeto Ar Condicionado</h2>");
             
              
             client.println("<p>Ar Condicionado " + output5State + "</p>");
@@ -156,33 +158,36 @@ void loop(){
             } else {
               client.println("<p><a href=\"/AR/Desligado\"><button class=\"button button2\">OFF</button></a></p>");
             } 
-               
              client.println("<p>Ar Condicionado " + Sumidificar + "</p>");
               
-            if (umidificar=="Ligado") {
-              client.println("<p><a href=\"/AR/Ligado\"><button class=\"button\">Umidificar</button></a></p>");
-            }
+            if (output5State=="Desligado") {
+              client.println("<p><a href=\"/Sumidificar/Ligado\"><button class=\"button\">Umidificar</button></a></p>");
+            } else {
+              client.println("<p><a href=\"/Sumidificar/Desligado\"><button class=\"button button2\">Umidificar</button></a></p>");
+            } 
             client.println("<p>Ar Condicionado " + Svelocidade + "</p>");
-              
-            if (velocidade=="Ligado") {
-              client.println("<p><a href=\"/AR/Ligado\"><button class=\"button\">Velocidade</button></a></p>");
+             if (output5State=="Desligado") {
+              client.println("<p><a href=\"/Svelocidade/Ligado\"><button class=\"button\">Velocidade</button></a></p>");
+            } else {
+              client.println("<p><a href=\"/Svelocidade/Desligado\"><button class=\"button button2\">Velocidade</button></a></p>");
             }
-
-            client.println("<p>Ar Condicionado " + Soscilacao + "</p>");
-              
-            if (oscilacao=="Ligado") {
-              client.println("<p><a href=\"/AR/Ligado\"><button class=\"button\">Oscilação</button></a></p>");
+            client.println("<p>Ar Condicionado " + Soscilacao + "</p>"); 
+            if (output5State=="Desligado") {
+              client.println("<p><a href=\"/Soscilacao/Ligado\"><button class=\"button\">Oscilar</button></a></p>");
+            } else {
+              client.println("<p><a href=\"Soscilacao/Desligado\"><button class=\"button button2\">Oscilar</button></a></p>");
             }
-
             client.println("<p>Ar Condicionado " + Sresfriar + "</p>");
-              
-            if (resfriar=="Ligado") {
-              client.println("<p><a href=\"/AR/Ligado\"><button class=\"button\">Resfriar</button></a></p>");
+            if (output5State=="Desligado") {
+              client.println("<p><a href=\"/Sresfriar/Ligado\"><button class=\"button\">Resfriar</button></a></p>");
+            } else {
+              client.println("<p><a href=\"Sresfriar/Desligado\"><button class=\"button button2\">Resfriar</button></a></p>");
             }
-             client.println("<p>Ar Condicionado " + Stimer + "</p>");
-              
-            if (Stimer=="Ligado") {
-              client.println("<p><a href=\"/AR/Ligado\"><button class=\"button\">Timer</button></a></p>");
+            client.println("<p>Ar Condicionado " + Stimer + "</p>");
+            if (output5State=="Desligado") {
+              client.println("<p><a href=\"/Stimer/Ligado\"><button class=\"button\">Timer</button></a></p>");
+            } else {
+              client.println("<p><a href=\"Stimer/Desligado\"><button class=\"button button2\">Timer</button></a></p>");
             }
 
             client.println("</body></html>");
