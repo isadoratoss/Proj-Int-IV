@@ -5,7 +5,7 @@
 //config Rede
 const char* ssid     = "PROF.RAFAEL"; //Roteador
 const char* password = ""; 
-IPAddress ip(192,168,1,171); //ip do dispositivo 
+IPAddress ip(192,168,1,131); //ip do dispositivo 
 IPAddress gateway(192,168,1,1); // gateway
 IPAddress subnet(255,255,255,0); //mascara
 
@@ -16,23 +16,22 @@ WiFiServer server(80);
 
 String header;
 
-String output5State = "off";
+String Sligar = "Desligado";
 
-String Sumidificar = "Umidificar";
+String Sumidificar = "Desligado";
 
-String Svelocidade = "Velocidade";
+String Svelocidade = "Desativado";
 
-String Soscilacao = "Oscilar";
+String Soscilacao = "Desativado";
 
-String Sresfriar = "Resfriar";
+String Sresfriar = "Desativado";
 
-String Stimer = "Timer";
-
-
-//porta digital
-const int output5 = 5; //D1
+String Stimer = "Desativado";
 
 
+
+
+int IRSenderPin = 5;//D1
 
 unsigned long currentTime = millis();
 
@@ -41,18 +40,8 @@ unsigned long previousTime = 0;
 const long timeoutTime = 2000;
 
  
-int RECV_PIN = 2; //PINO DIGITAL UTILIZADO PELO FOTORRECEPTOR KY-022
+
  
-IRrecv irrecv(RECV_PIN); //PASSA O PARÂMETRO PARA A FUNÇÃO irrecv
- 
-decode_results results; //VARIÁVEL QUE ARMAZENA OS RESULTADOS (SINAL IR RECEBIDO)
-//Pro controle climatizador
-String ligar = "1FE48B7";
-String umidificar = "1FE20DF";
-String velocidade = "1FEA05F";
-String oscilacao = "1FE609F";
-String resfriar = "E50FD9A5";
-String timer = "1FE";
 
 //Pro controle do alexandre
 
@@ -61,17 +50,9 @@ String timer = "1FE";
 
  
 void setup(){
+  
   Serial.begin(9600); //INICIALIZA A SERIAL
-  irrecv.enableIRIn(); //INICIALIZA A RECEPÇÃO DE SINAIS IR
-
-  //habilitar porta
-  pinMode(output5, OUTPUT);
-
-
-  //O estado da porta
-  digitalWrite(output5, HIGH);
- 
-
+  IrSender.begin(IRSenderPin);
   
   Serial.print("Connecting to ");
   Serial.println(ssid);
@@ -90,17 +71,7 @@ void setup(){
 }
  
 void loop(){
-  //CAPTURA O SINAL IR
-  //Serial.println("Esperando");
-  if (irrecv.decode(&results)) {
-    Serial.print("Código HEX: "); //IMPRIME O TEXTO NO MONITOR SERIAL
-    Serial.println(results.value, HEX); //IMPRIME NO MONITOR SERIAL O CÓDIGO IR EM FORMATO HEXADECIMAL
-    Serial.print("Código DEC: "); //IMPRIME O TEXTO NO MONITOR SERIAL
-    Serial.println(results.value); //IMPRIME NO MONITOR SERIAL O CÓDIGO IR EM FORMATO DECIMAL
-    Serial.println(""); //QUEBRA DE LINHA NA SERIAL
-    irrecv.resume(); //AGUARDA O RECEBIMENTO DE UM NOVO SINAL IR
-  }
-  delay(200); //INTERVALO DE 100 MILISSEGUNDOS
+
 
  WiFiClient client = server.available();   
 
@@ -127,12 +98,74 @@ void loop(){
            
             if (header.indexOf("GET /AR/Ligado") >= 0) {
               Serial.println("on");
-              output5State = "Ligado";
-              digitalWrite(output5, LOW);
+              IrSender.sendNEC(0x80, 0x12, 2);
+              Sligar = "Ligado";
+              
             } else if (header.indexOf("GET /AR/Desligado") >= 0) {
               Serial.println("off");
-              output5State = "Desligado";
-              digitalWrite(output5, HIGH);
+              IrSender.sendNEC(0x80, 0x12, 2);
+              Sligar = "Desligado";
+              
+            }
+
+              if (header.indexOf("GET /UMIDIFICAR/Ligado") >= 0) {
+              Serial.println("on");
+              IrSender.sendNEC(0x80, 0x4, 2);
+              Sumidificar = "Ligado";
+              
+            } else if (header.indexOf("GET /UMIDIFICAR/Desligado") >= 0) {
+              Serial.println("off");
+              IrSender.sendNEC(0x80, 0x4, 2);
+              Sumidificar= "Desligado";
+              
+            }
+
+               if (header.indexOf("GET /VELOCIDADE/Ativado") >= 0) {
+              Serial.println("on");
+              IrSender.sendNEC(0x80, 0x5 , 2);
+              Svelocidade = "Ativado";
+              
+            } else if (header.indexOf("GET /VELOCIDADE/Desligado") >= 0) {
+              Serial.println("off");
+              IrSender.sendNEC(0x80, 0x5, 2);
+              Svelocidade = "Desativado";
+              
+            }
+
+              if (header.indexOf("GET /OSCILACAO/Ativado") >= 0) {
+              Serial.println("on");
+              IrSender.sendNEC(0x80, 0x6, 2);
+              Soscilacao = "Ativado";
+              
+            } else if (header.indexOf("GET /OSCILACAO/Desligado") >= 0) {
+              Serial.println("off");
+              IrSender.sendNEC(0x80, 0x6, 2);
+              Soscilacao = "Desativado";
+              
+            }
+
+             if (header.indexOf("GET /RESFRIAR/Ativado") >= 0) {
+              Serial.println("on");
+              IrSender.sendNEC(0x80, 0xA, 2);
+              Sresfriar = "Ativado";
+              
+            } else if (header.indexOf("GET /RESFRIAR/Desligado") >= 0) {
+              Serial.println("off");
+              IrSender.sendNEC(0x80, 0xA, 2);
+              Sresfriar = "Desativado";
+              
+            }
+
+               if (header.indexOf("GET /TIMER/Ativado") >= 0) {
+              Serial.println("on");
+              IrSender.sendNEC(0x80, 0x1F, 2);
+              Stimer = "Ativado";
+              
+            } else if (header.indexOf("GET /TIMER/Desligado") >= 0) {
+              Serial.println("off");
+              IrSender.sendNEC(0x80, 0x1F, 2);
+              Stimer = "Desativado";
+              
             }
             
           
@@ -151,43 +184,43 @@ void loop(){
             client.println("<body><h2>Projeto Ar Condicionado</h2>");
             
              
-            client.println("<p>Ar Condicionado " + output5State + "</p>");
+            client.println("<p>Ar Condicionado " + Sligar + "</p>");
               
-            if (output5State=="Desligado") {
+            if (Sligar=="Desligado") {
               client.println("<p><a href=\"/AR/Ligado\"><button class=\"button\">ON</button></a></p>");
             } else {
               client.println("<p><a href=\"/AR/Desligado\"><button class=\"button button2\">OFF</button></a></p>");
             } 
-             client.println("<p>Ar Condicionado " + Sumidificar + "</p>");
+             client.println("<p>Umidificador " + Sumidificar + "</p>");
               
-            if (output5State=="Desligado") {
-              client.println("<p><a href=\"/Sumidificar/Ligado\"><button class=\"button\">Umidificar</button></a></p>");
+            if (Sumidificar=="Desligado") {
+              client.println("<p><a href=\"/UMIDIFICAR/Ligado\"><button class=\"button\">Umidificar</button></a></p>");
             } else {
-              client.println("<p><a href=\"/Sumidificar/Desligado\"><button class=\"button button2\">Umidificar</button></a></p>");
+              client.println("<p><a href=\"/UMIDIFICAR/Desligado\"><button class=\"button button2\">Umidificar</button></a></p>");
             } 
-            client.println("<p>Ar Condicionado " + Svelocidade + "</p>");
-             if (output5State=="Desligado") {
-              client.println("<p><a href=\"/Svelocidade/Ligado\"><button class=\"button\">Velocidade</button></a></p>");
+            client.println("<p>Velocidade " + Svelocidade + "</p>");
+             if (Svelocidade=="Desativado") {
+              client.println("<p><a href=\"/VELOCIDADE/Ativado\"><button class=\"button\">Velocidade</button></a></p>");
             } else {
-              client.println("<p><a href=\"/Svelocidade/Desligado\"><button class=\"button button2\">Velocidade</button></a></p>");
+              client.println("<p><a href=\"/VELOCIDADE/Desativado\"><button class=\"button button2\">Velocidade</button></a></p>");
             }
-            client.println("<p>Ar Condicionado " + Soscilacao + "</p>"); 
-            if (output5State=="Desligado") {
-              client.println("<p><a href=\"/Soscilacao/Ligado\"><button class=\"button\">Oscilar</button></a></p>");
+            client.println("<p>Oscilar " + Soscilacao + "</p>"); 
+            if (Soscilacao=="Desativado") {
+              client.println("<p><a href=\"/OSCILACAO/Ativado\"><button class=\"button\">Oscilar</button></a></p>");
             } else {
-              client.println("<p><a href=\"Soscilacao/Desligado\"><button class=\"button button2\">Oscilar</button></a></p>");
+              client.println("<p><a href=\"OSCILACAO/Desativado\"><button class=\"button button2\">Oscilar</button></a></p>");
             }
             client.println("<p>Ar Condicionado " + Sresfriar + "</p>");
-            if (output5State=="Desligado") {
-              client.println("<p><a href=\"/Sresfriar/Ligado\"><button class=\"button\">Resfriar</button></a></p>");
+            if (Sresfriar=="Desativado") {
+              client.println("<p><a href=\"/RESFRIAR/Ativado\"><button class=\"button\">Resfriar</button></a></p>");
             } else {
-              client.println("<p><a href=\"Sresfriar/Desligado\"><button class=\"button button2\">Resfriar</button></a></p>");
+              client.println("<p><a href=\"RESFRIAR/Desativado\"><button class=\"button button2\">Resfriar</button></a></p>");
             }
             client.println("<p>Ar Condicionado " + Stimer + "</p>");
-            if (output5State=="Desligado") {
-              client.println("<p><a href=\"/Stimer/Ligado\"><button class=\"button\">Timer</button></a></p>");
+            if (Stimer=="Desativado") {
+              client.println("<p><a href=\"/TIMER/Ativado\"><button class=\"button\">Timer</button></a></p>");
             } else {
-              client.println("<p><a href=\"Stimer/Desligado\"><button class=\"button button2\">Timer</button></a></p>");
+              client.println("<p><a href=\"TIMER/Desativado\"><button class=\"button button2\">Timer</button></a></p>");
             }
 
             client.println("</body></html>");
