@@ -7,7 +7,7 @@ Projeto de desenvolvimento de um controle, para que mesmo a distância, seja pos
 
 # Estrutura do Projeto:
 
-<iframe src="https://drive.google.com/file/d/1KmD9E5xBZQib2v6vsz6HYFUPX9O03j70/preview" width="640" height="480" allow="autoplay"></iframe>
+<img src="https://drive.google.com/file/d/1KmD9E5xBZQib2v6vsz6HYFUPX9O03j70/preview" width="640" height="480" allow="autoplay"></img>
 
 # Para realização do projeto foram utilizados os seguintes materiais:
 -NodeMCU
