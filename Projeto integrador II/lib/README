@@ -10,10 +10,9 @@ Projeto de desenvolvimento de um controle, para que mesmo a distância, seja pos
 <img src="https://uploaddeimagens.com.br/images/004/254/384/full/img%281%29.jpeg?1670546281" />
 
 # Para realização do projeto foram utilizados os seguintes materiais:
--NodeMCU
--Transmissor InfraVermelho
--Receptor 
--Controle remoto
+- NodeMCU
+- Transmissor InfraVermelho
+- Receptor
 <div align = center>
     <a href='https://github.com/isadoratoss/Proj-Int-IV'>
 
