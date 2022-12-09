@@ -1,6 +1,7 @@
-# ProjetoIntegradorII : Automação para climatizador/ar condicionado
+# ProjetoIntegrador : Automação para climatizador/ar condicionado
 Projeto de desenvolvimento de um controle, para que mesmo a distância, seja possível controlar a temperatura do ambiente remotamente.
 **Desenvolvedores:** Alexandre Bussolaro, Isadora Toss, Lucas Tatin, acadêmicos do curso de Sistemas de Informação do Centro Universitário Mater Dei.
+<img src="https://uploaddeimagens.com.br/images/004/254/411/full/WhatsApp_Image_2022-12-08_at_21.58.05.jpeg?1670547525" />
 <div align = center>
     <a href='https://github.com/isadoratoss/Proj-Int-IV'>
     
