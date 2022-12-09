@@ -22,7 +22,7 @@ Projeto de desenvolvimento de um controle, para que mesmo a distância, seja pos
 <img height="100em" src='https://cdn.awsli.com.br/600x700/468/468162/produto/59119926/339baf2732.jpg'  />
 
 # Programação:
-# O projeto foi desenvolvido em C++ com a utilização da ferramenta VSCode
+# O projeto foi desenvolvido em C++ com a utilização da ferramenta VSCode + PlatformIO
 <img height="200em" src='https://diyprojects.io/media/2020/08/install-platformio-vscode-discover-1536x864-1.jpg'  />
 
 <div align = center>
